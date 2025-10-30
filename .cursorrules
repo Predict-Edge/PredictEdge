@@ -1,0 +1,29 @@
+# Gold Price Prediction Project Rules
+
+## Tech Stack
+- Python 3.10+
+- TensorFlow/Keras for LSTM
+- pandas, numpy for data processing
+- yfinance for market data
+- matplotlib, seaborn, plotly for viz
+
+## Code Style
+- Follow PEP 8
+- Use meaningful variable names (no x, y, df1, df2)
+- Add comments for complex logic
+- Type hints for functions
+
+## Data Science Specific
+- Always check data shape and types
+- Visualize before and after transformations
+- Use chronological splits (never random for time series)
+- Scale features before LSTM
+- Save models and preprocessed data
+- Document assumptions in markdown
+
+## Notebook Structure
+Each section must have:
+1. Markdown header explaining goal
+2. Code with inline comments
+3. Validation prints/displays
+4. Visualization if applicable
