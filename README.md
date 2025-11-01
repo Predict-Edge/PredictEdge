@@ -91,16 +91,3 @@ jupyter notebook gold_price_prediction_lstm.ipynb
 ## 📚 Documentation
 
 For complete setup, data sources, architecture, and API usage, see [**DOCS.md**](DOCS.md)
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome!  
-Please open an issue or submit a pull request.
-
----
-
-## 📄 License
-
-This project is open-source and available under the **MIT License**.
