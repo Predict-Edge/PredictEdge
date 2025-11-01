@@ -50,6 +50,15 @@ python -c "import yfinance as yf; print('yfinance installed')"
 
 ---
 
+### 4️⃣ Linting and Formatting
+
+```bash
+make lint
+make format
+```
+
+---
+
 ## 💾 Data Sources
 
 | Asset | Ticker | Source | Description |
