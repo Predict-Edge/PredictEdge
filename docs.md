@@ -35,33 +35,6 @@ source .venv/bin/activate
 
 ### 2️⃣ Install dependencies
 
-Create a `requirements.txt` file:
-
-```
-pandas
-numpy
-scikit-learn
-tensorflow
-keras
-yfinance
-alpha_vantage
-requests
-beautifulsoup4
-matplotlib
-plotly
-seaborn
-streamlit
-python-dotenv
-openpyxl
-sqlalchemy
-xgboost
-torch
-torchvision
-torchaudio
-statsmodels
-pandas-datareader
-```
-
 Install all dependencies:
 
 ```bash
