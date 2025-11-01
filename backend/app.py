@@ -1,8 +1,9 @@
+import joblib
+import numpy as np
 from fastapi import FastAPI
 from pydantic import BaseModel
-import numpy as np
-import joblib
-from tensorflow.keras.models import load_model
+
+# from tensorflow.keras.models import load_model
 
 app = FastAPI()
 
@@ -22,7 +23,7 @@ app = FastAPI()
 #     pred = scaler.inverse_transform(pred_scaled)
 #     return {"predicted_price": float(pred.flatten()[0])}
 
+
 @app.get("/")
 def root():
     return {"message": "Hello, World!"}
-    
