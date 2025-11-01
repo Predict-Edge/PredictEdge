@@ -19,6 +19,9 @@ torch
 torchvision
 torchaudio
 statsmodels
+uvicorn
+fastapi
+joblib
 
 # DEV
 pytest
