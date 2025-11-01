@@ -44,7 +44,7 @@ The model uses **LSTM (Long Short-Term Memory)** deep learning architecture to c
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/Predict-Edge/PredictEdge.git
 cd gold-price-prediction
 
 # Create virtual environment
@@ -90,4 +90,4 @@ jupyter notebook gold_price_prediction_lstm.ipynb
 
 ## 📚 Documentation
 
-For complete setup, data sources, architecture, and API usage, see [**DOCS.md**](DOCS.md)
+For complete setup, data sources, architecture, and API usage, see [**DOCS.md**](docs/README.md)
