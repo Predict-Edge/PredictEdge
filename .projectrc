@@ -1,0 +1,2 @@
+alias venv="source .venv/bin/activate"
+alias run="just dev"
