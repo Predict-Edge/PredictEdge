@@ -26,3 +26,5 @@ joblib
 # DEV
 pytest
 flake8
+black
+isort
