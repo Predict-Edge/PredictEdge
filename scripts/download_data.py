@@ -46,6 +46,7 @@ def download_yfinance_series(
                 interval=interval,
                 auto_adjust=True,
                 progress=False,
+                multi_level_index=False,  # Add this line
             )
             if df is not None and not df.empty:
                 series_only = df.loc[:, ["Close"]].rename(columns={"Close": ticker})

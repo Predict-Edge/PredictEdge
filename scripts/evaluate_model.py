@@ -7,23 +7,24 @@ This module provides functions for:
 """
 
 import math
-import numpy as np
-import pandas as pd
 from pathlib import Path
 from typing import Dict
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+
+import numpy as np
+import pandas as pd
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 
 def mape(y_true: np.ndarray, y_pred: np.ndarray) -> float:
     """Compute Mean Absolute Percentage Error (MAPE).
-    
+
     Parameters
     ----------
     y_true : np.ndarray
         True values
     y_pred : np.ndarray
         Predicted values
-        
+
     Returns
     -------
     float
@@ -39,14 +40,14 @@ def mape(y_true: np.ndarray, y_pred: np.ndarray) -> float:
 
 def compute_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
     """Compute all evaluation metrics.
-    
+
     Parameters
     ----------
     y_true : np.ndarray
         True values
     y_pred : np.ndarray
         Predicted values
-        
+
     Returns
     -------
     Dict[str, float]
@@ -56,7 +57,7 @@ def compute_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float]:
         "RMSE": math.sqrt(mean_squared_error(y_true, y_pred)),
         "MAE": mean_absolute_error(y_true, y_pred),
         "MAPE": mape(y_true, y_pred),
-        "R2": r2_score(y_true, y_pred)
+        "R2": r2_score(y_true, y_pred),
     }
 
 
@@ -66,10 +67,10 @@ def evaluate_model(
     y_val_true: np.ndarray,
     y_val_pred: np.ndarray,
     y_test_true: np.ndarray,
-    y_test_pred: np.ndarray
+    y_test_pred: np.ndarray,
 ) -> pd.DataFrame:
     """Evaluate model on train, validation, and test sets.
-    
+
     Parameters
     ----------
     y_train_true : np.ndarray
@@ -84,7 +85,7 @@ def evaluate_model(
         Test true values
     y_test_pred : np.ndarray
         Test predictions
-        
+
     Returns
     -------
     pd.DataFrame
@@ -93,20 +94,18 @@ def evaluate_model(
     results = {
         "Train": compute_metrics(y_train_true, y_train_pred),
         "Validation": compute_metrics(y_val_true, y_val_pred),
-        "Test": compute_metrics(y_test_true, y_test_pred)
+        "Test": compute_metrics(y_test_true, y_test_pred),
     }
-    
+
     df = pd.DataFrame(results).T
     return df
 
 
 def save_evaluation_results(
-    results_df: pd.DataFrame,
-    output_path: Path,
-    append: bool = True
+    results_df: pd.DataFrame, output_path: Path, append: bool = True
 ) -> None:
     """Save evaluation results to CSV.
-    
+
     Parameters
     ----------
     results_df : pd.DataFrame
@@ -117,7 +116,7 @@ def save_evaluation_results(
         Whether to append to existing file (default: True)
     """
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    
+
     if append and output_path.exists():
         # Append with timestamp
         existing_df = pd.read_csv(output_path, index_col=0)
@@ -127,13 +126,13 @@ def save_evaluation_results(
         combined_df.to_csv(output_path)
     else:
         results_df.to_csv(output_path)
-    
+
     print(f"Evaluation results saved to: {output_path}")
 
 
 def print_metrics_table(results_df: pd.DataFrame) -> None:
     """Print formatted metrics table.
-    
+
     Parameters
     ----------
     results_df : pd.DataFrame
@@ -141,4 +140,3 @@ def print_metrics_table(results_df: pd.DataFrame) -> None:
     """
     print("\nEvaluation Metrics:")
     print(results_df.to_string(float_format=lambda x: f"{x:,.4f}"))
-

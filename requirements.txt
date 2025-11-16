@@ -29,3 +29,4 @@ pytest
 flake8
 black
 isort
+autoflake
