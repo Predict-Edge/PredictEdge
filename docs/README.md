@@ -57,6 +57,8 @@ make lint
 make format
 ```
 
+**Install pre-commit hooks** (one-time setup): `pre-commit install`
+
 ---
 
 ## 💾 Data Sources
