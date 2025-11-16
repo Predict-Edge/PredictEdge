@@ -30,3 +30,4 @@ flake8
 black
 isort
 autoflake
+pre-commit

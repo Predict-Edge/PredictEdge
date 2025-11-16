@@ -9,13 +9,14 @@ This module provides functions for creating publication-ready visualizations:
 - Future predictions with confidence bands
 """
 
+from pathlib import Path
+from typing import Dict, Optional, Tuple
+
+import matplotlib.dates as mdates
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
-from pathlib import Path
-from typing import Dict, Tuple, Optional
-import matplotlib.dates as mdates
 
 # Set style
 plt.style.use("seaborn-v0_8")
