@@ -1,4 +1,5 @@
 pandas
+pandas-datareader
 numpy
 scikit-learn
 tensorflow
