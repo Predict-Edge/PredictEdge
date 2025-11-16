@@ -57,7 +57,7 @@ make lint
 make format
 ```
 
-**Install pre-commit hooks** (one-time setup): pre-commit install
+**Install pre-commit hooks** (one-time setup): `pre-commit install`
 
 ---
 
