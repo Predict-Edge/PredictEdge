@@ -296,16 +296,16 @@ def save_splits(
 
 if __name__ == "__main__":
     # Example usage
-    # import sys
+    import sys
     from pathlib import Path
 
-    # if len(sys.argv) < 2:
-    # print("Usage: python preprocess_data.py <raw_data_path>")
-    # sys.exit(1)
+    # Use default raw data path if not provided via command line
+    if len(sys.argv) >= 2:
+        raw_path = Path(sys.argv[1])
+    else:
+        raw_path = Path("data/raw/gold_raw_data.csv")
+        print(f"No raw data path provided, using default: {raw_path}")
 
-    raw_path = Path("data/raw/gold_raw_data.csv")
-
-    # raw_path = Path(sys.argv[1])
     output_dir = Path("data/processed")
 
     # Load raw data

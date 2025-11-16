@@ -7,14 +7,30 @@ This module provides functions for:
 - Saving predictions to CSV
 """
 
+import os
+
+# Set environment variables BEFORE importing TensorFlow to prevent mutex lock errors on macOS
+# This fixes the "mutex lock failed: Invalid argument" error
+os.environ["TF_NUM_INTEROP_THREADS"] = "1"
+os.environ["TF_NUM_INTRAOP_THREADS"] = "1"
+os.environ["OMP_NUM_THREADS"] = "1"
+
 from pathlib import Path
 from typing import Tuple
 
 import joblib
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import load_model
+
+# Additional TensorFlow threading configuration as backup
+try:
+    tf.config.threading.set_inter_op_parallelism_threads(1)
+    tf.config.threading.set_intra_op_parallelism_threads(1)
+except Exception:
+    pass  # Configuration may fail on some TensorFlow versions
 
 
 def predict_future(
@@ -177,16 +193,64 @@ def load_model_and_scaler(
 if __name__ == "__main__":
     # Example usage
     import sys
+    from datetime import datetime
     from pathlib import Path
 
-    if len(sys.argv) < 3:
-        print("Usage: python run_prediction.py <model_path> <scaler_path>")
-        sys.exit(1)
+    # Use default paths if not provided via command line
+    if len(sys.argv) >= 3:
+        model_path = Path(sys.argv[1])
+        scaler_path = Path(sys.argv[2])
+    else:
+        # Try to find the most recent model and scaler files
+        models_dir = Path("models")
+        notebooks_dir = Path("notebooks")
 
-    model_path = Path(sys.argv[1])
-    scaler_path = Path(sys.argv[2])
+        # Look for model files in both directories
+        model_candidates = []
+        if models_dir.exists():
+            model_candidates.extend(list(models_dir.glob("gold_lstm_*.h5")))
+            model_candidates.extend(list(models_dir.glob("*.h5")))
+        if notebooks_dir.exists():
+            model_candidates.extend(list(notebooks_dir.glob("*.h5")))
+
+        if model_candidates:
+            # Get the most recent model file
+            model_path = max(model_candidates, key=lambda p: p.stat().st_mtime)
+            # Try to find corresponding scaler
+            timestamp = (
+                model_path.stem.split("_")[-1]
+                if "_" in model_path.stem
+                else datetime.now().strftime("%Y%m%d")
+            )
+            scaler_candidates = []
+            if models_dir.exists():
+                scaler_candidates.extend(
+                    list(models_dir.glob(f"scaler_{timestamp}.pkl"))
+                )
+                scaler_candidates.extend(list(models_dir.glob("scaler_*.pkl")))
+            if scaler_candidates:
+                scaler_path = max(scaler_candidates, key=lambda p: p.stat().st_mtime)
+            else:
+                scaler_path = models_dir / "scaler.pkl"
+            print("No paths provided, using defaults:")
+            print(f"  Model: {model_path}")
+            print(f"  Scaler: {scaler_path}")
+        else:
+            # Fallback to config defaults
+            from config.config import config
+
+            model_path = Path(config.MODEL_PATH)
+            scaler_path = Path(config.SCALER_PATH)
+            print("No paths provided, using config defaults:")
+            print(f"  Model: {model_path}")
+            print(f"  Scaler: {scaler_path}")
 
     # Load model and scaler
-    model, scaler = load_model_and_scaler(model_path, scaler_path)
-
-    print("Prediction script ready!")
+    if model_path.exists() and scaler_path.exists():
+        model, scaler = load_model_and_scaler(model_path, scaler_path)
+        print("Prediction script ready!")
+    else:
+        print("Warning: Model or scaler file not found.")
+        print(f"  Model exists: {model_path.exists()}")
+        print(f"  Scaler exists: {scaler_path.exists()}")
+        print("Prediction script ready (but model/scaler not loaded)!")

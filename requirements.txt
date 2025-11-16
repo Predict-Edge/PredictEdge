@@ -2,7 +2,7 @@ pandas
 pandas-datareader
 numpy
 scikit-learn
-tensorflow
+tensorflow==2.15.1
 keras
 yfinance
 alpha_vantage
